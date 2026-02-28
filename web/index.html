@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrebleDroid Overlay Creator Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .step {
+            background: white;
+            margin-bottom: 20px;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        .step-number {
+            background: #3498db;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step h2 {
+            color: #2c3e50;
+            font-size: 1.3em;
+        }
+        
+        .step-content {
+            margin-left: 45px;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #e74c3c;
+        }
+        
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+        }
+        
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .warning {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        ul, ol {
+            margin: 10px 0 10px 20px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .file-tree {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 0;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #7f8c8d;
+            margin-top: 40px;
+        }
+        
+        @media (max-width: 600px) {
+            .step-content {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            .step-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .step-number {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>TrebleDroid Overlay Creator</h1>
+        <p>Complete Step-by-Step Guide for Creating Android GSI Overlays</p>
+    </header>
+    
+    <div class="container">
+        
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <h2>Prerequisites</h2>
+            </div>
+            <div class="step-content">
+                <p>Before starting, ensure you have:</p>
+                <ul>
+                    <li>A Linux machine (Ubuntu or Linux Mint recommended)</li>
+                    <li>Your Android device with USB debugging enabled</li>
+                    <li>USB cable to connect device to PC</li>
+                    <li>Stock firmware (optional, for manual extraction)</li>
+                </ul>
+                
+                <div class="warning">
+                    <strong>Note:</strong> This guide is for Treble-enabled devices with stock firmware. For devices with custom firmware, contact the developer directly.
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <h2>Download the Script</h2>
+            </div>
+            <div class="step-content">
+                <p>Create a new file named <code>create-overlay.sh</code>:</p>
+                
+                <pre><code>touch create-overlay.sh
+nano create-overlay.sh</code></pre>
+                
+                <p>Copy the entire script content into this file, then save:</p>
+                <ul>
+                    <li>Press <code>Ctrl+O</code> to save</li>
+                    <li>Press <code>Enter</code> to confirm</li>
+                    <li>Press <code>Ctrl+X</code> to exit</li>
+                </ul>
+                
+                <p>Make the script executable:</p>
+                <pre><code>chmod +x create-overlay.sh</code></pre>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <h2>Run the Script</h2>
+            </div>
+            <div class="step-content">
+                <p>Execute the script:</p>
+                <pre><code>./create-overlay.sh</code></pre>
+                
+                <p>You will see the main menu:</p>
+                <pre><code>----------------------------------------------------------
+           TrebleDroid Overlay Creator v2.0
+           Format: ro.product.device (Latest)
+----------------------------------------------------------
+
+Select mode:
+
+  1) Full Auto (All steps)
+  2) Quick Manifest Only
+  3) Generate from existing APK
+  4) Setup dependencies only
+  5) Exit
+
+Choice (1-5):</code></pre>
+                
+                <div class="note">
+                    <strong>Recommendation:</strong> Choose option <strong>1</strong> for first-time users to go through all steps automatically.
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <h2>Step 1: Install Dependencies</h2>
+            </div>
+            <div class="step-content">
+                <p>The script will install required tools:</p>
+                <ul>
+                    <li><code>git</code> - Version control</li>
+                    <li><code>xmlstarlet</code> - XML processing</li>
+                    <li><code>adb</code> - Android Debug Bridge</li>
+                    <li><code>apktool</code> - APK decompilation</li>
+                    <li><code>aapt</code> - Android Asset Packaging Tool</li>
+                </ul>
+                
+                <p>When prompted, type <code>y</code> and press Enter to continue.</p>
+                
+                <div class="success">
+                    Wait for installation to complete. This may take a few minutes depending on your internet connection.
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">5</div>
+                <h2>Step 2: Device Detection</h2>
+            </div>
+            <div class="step-content">
+                <p>Choose how to detect your device:</p>
+                
+                <h3>Option A: Via ADB (Recommended)</h3>
+                <ol>
+                    <li>Connect your device via USB</li>
+                    <li>Enable USB Debugging in Developer Options</li>
+                    <li>Select option <strong>1</strong> in the script</li>
+                    <li>Allow USB debugging on your device screen when prompted</li>
+                </ol>
+                
+                <p>The script will automatically detect:</p>
+                <ul>
+                    <li><code>ro.product.device</code> (Device Codename)</li>
+                    <li><code>ro.vendor.build.fingerprint</code> (Brand/Model)</li>
+                </ul>
+                
+                <h3>Option B: Manual Input</h3>
+                <p>If ADB doesn't work, select option <strong>2</strong> and manually enter:</p>
+                <ul>
+                    <li>Device Codename (e.g., <code>w10pro</code>, <code>a03</code>)</li>
+                    <li>Brand Name (e.g., <code>samsung</code>, <code>xiaomi</code>)</li>
+                    <li>Model Name (e.g., <code>galaxy_a03</code>)</li>
+                </ul>
+                
+                <div class="warning">
+                    <strong>Important:</strong> The new format uses <code>ro.product.device</code> instead of the old <code>ro.vendor.build.fingerprint</code>. Make sure to use the correct codename!
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">6</div>
+                <h2>Step 3: Extract Overlay APKs</h2>
+            </div>
+            <div class="step-content">
+                <p>The script needs stock overlay APKs from your device. Choose extraction method:</p>
+                
+                <h3>Option A: From Device (Auto-Pull)</h3>
+                <p>Select option <strong>1</strong> if your device is connected. The script will pull:</p>
+                <ul>
+                    <li><code>/system/vendor/overlay/framework-res__auto_generated_rro_vendor.apk</code></li>
+                    <li><code>/system/product/overlay/framework-res__auto_generated_rro_product.apk</code></li>
+                </ul>
+                
+                <h3>Option B: Manual Path</h3>
+                <p>If you have already extracted the firmware:</p>
+                <ol>
+                    <li>Select option <strong>3</strong></li>
+                    <li>Enter the full path to your product overlay APK</li>
+                    <li>Optionally enter path to vendor overlay APK</li>
+                </ol>
+                
+                <div class="file-tree">
+overlay-files/
+├── vendor.apk (optional but recommended)
+└── product.apk (required)</div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">7</div>
+                <h2>Step 4: Decompile & Compare</h2>
+            </div>
+            <div class="step-content">
+                <p>The script will automatically:</p>
+                <ol>
+                    <li>Decompile both APKs using apktool</li>
+                    <li>Compare resources between vendor and product overlays</li>
+                    <li>Extract only the differences (product-specific overrides)</li>
+                    <li>Generate <code>config.xml</code> with the differences</li>
+                </ul>
+                
+                <p>Files compared:</p>
+                <ul>
+                    <li><code>arrays.xml</code></li>
+                    <li><code>bools.xml</code></li>
+                    <li><code>dimens.xml</code></li>
+                    <li><code>integers.xml</code></li>
+                    <li><code>strings.xml</code></li>
+                    <li><code>power_profile.xml</code> (if different)</li>
+                </ul>
+                
+                <div class="success">
+                    The script shows a preview of the generated config.xml. Review it to ensure important values are included.
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">8</div>
+                <h2>Step 5: Generate AndroidManifest.xml</h2>
+            </div>
+            <div class="step-content">
+                <p>The script generates the manifest with the <strong>NEW FORMAT</strong>:</p>
+                
+                <pre><code>&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="me.phh.treble.overlay.brand.codename"
+        android:versionCode="1"
+        android:versionName="1.0"&gt;
+        &lt;overlay android:targetPackage="android"
+        	android:requiredSystemPropertyName="ro.product.device"
+        	android:requiredSystemPropertyValue="YOUR_CODENAME"
+		android:priority="999"
+		android:isStatic="true" /&gt;
+&lt;/manifest&gt;</code></pre>
+                
+                <div class="warning">
+                    <strong>Critical Difference:</strong><br>
+                    Old format: <code>ro.vendor.build.fingerprint</code> with wildcard matching<br>
+                    New format: <code>ro.product.device</code> with exact codename matching
+                </div>
+                
+                <p>Key values:</p>
+                <ul>
+                    <li><code>package</code>: Unique identifier for your overlay</li>
+                    <li><code>requiredSystemPropertyName</code>: <code>ro.product.device</code> (NEW)</li>
+                    <li><code>requiredSystemPropertyValue</code>: Your exact device codename</li>
+                    <li><code>priority</code>: 999 (high priority to override GSI defaults)</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">9</div>
+                <h2>Step 6: Generate Android.mk</h2>
+            </div>
+            <div class="step-content">
+                <p>The script creates the build configuration file:</p>
+                
+                <pre><code>LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+LOCAL_MODULE_TAGS := optional
+LOCAL_PACKAGE_NAME := treble-overlay-brand-codename
+LOCAL_MODULE_PATH := $(TARGET_OUT_PRODUCT)/overlay
+LOCAL_IS_RUNTIME_RESOURCE_OVERLAY := true
+LOCAL_PRIVATE_PLATFORM_APIS := true
+include $(BUILD_PACKAGE)</code></pre>
+                
+                <p>This tells the Android build system how to compile your overlay.</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">10</div>
+                <h2>Step 7: Testing Guide</h2>
+            </div>
+            <div class="step-content">
+                <p>The script creates a helper script for testing. To test your overlay:</p>
+                
+                <h3>Build the APK</h3>
+                <pre><code>git clone https://github.com/TrebleDroid/vendor_hardware_overlay.git
+cd vendor_hardware_overlay
+./build/build.sh</code></pre>
+                
+                <h3>Install to Device</h3>
+                <p><strong>Method A: Via Magisk (Recommended)</strong></p>
+                <ol>
+                    <li>Copy the generated APK to the Magisk module template:</li>
+                </ol>
+                <pre><code>cp treble-overlay-brand-codename.apk \
+   magisk-module/system/product/overlay/</code></pre>
+                
+                <ol start="2">
+                    <li>Zip the magisk-module folder</li>
+                    <li>Install via Magisk Manager</li>
+                    <li>Reboot device</li>
+                </ol>
+                
+                <p><strong>Method B: Manual (Requires Root)</strong></p>
+                <pre><code>adb push treble-overlay-brand-codename.apk /system/product/overlay/
+adb reboot</code></pre>
+                
+                <h3>Verify Installation</h3>
+                <pre><code>adb shell cmd overlay list --user current</code></pre>
+                
+                <p>You should see:</p>
+                <pre><code>[x] me.phh.treble.overlay.brand.codename</code></pre>
+                
+                <div class="success">
+                    The <code>[x]</code> indicates the overlay is active and enabled!
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">11</div>
+                <h2>Step 8: Repository Setup</h2>
+            </div>
+            <div class="step-content">
+                <p>The script generates <code>setup-repo.sh</code> to help you prepare for submission:</p>
+                
+                <h3>1. Fork the Repository</h3>
+                <p>Go to <a href="https://github.com/TrebleDroid/vendor_hardware_overlay" target="_blank">TrebleDroid/vendor_hardware_overlay</a> and click <strong>Fork</strong>.</p>
+                
+                <h3>2. Clone Your Fork</h3>
+                <pre><code>git clone https://github.com/YOUR_USERNAME/vendor_hardware_overlay.git
+cd vendor_hardware_overlay</code></pre>
+                
+                <h3>3. Run Setup Script</h3>
+                <pre><code>~/treble-overlay-work/setup-repo.sh /path/to/vendor_hardware_overlay</code></pre>
+                
+                <p>This copies your overlay files to the correct location:</p>
+                <div class="file-tree">
+vendor_hardware_overlay/
+└── overlay/
+    └── brand/
+        └── codename/
+            ├── AndroidManifest.xml
+            ├── Android.mk
+            └── res/
+                ├── values/
+                │   └── config.xml
+                └── xml/
+                    └── power_profile.xml (if needed)</div>
+                
+                <h3>4. Update overlay.mk</h3>
+                <p>Edit <code>overlay.mk</code> and add your overlay in alphabetical order:</p>
+                <pre><code>treble-overlay-brand-codename \</code></pre>
+                
+                <h3>5. Run Tests</h3>
+                <pre><code>./tests/tests.sh</code></pre>
+                <p>Fix any errors reported by the test script.</p>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">12</div>
+                <h2>Step 9: Submit Pull Request</h2>
+            </div>
+            <div class="step-content">
+                <p>Once testing passes, submit your overlay:</p>
+                
+                <h3>Commit and Push</h3>
+                <pre><code>git add overlay/brand/codename/
+git add overlay.mk
+git commit -m "Add overlay for Brand Codename"
+git push origin master</code></pre>
+                
+                <h3>Create Pull Request</h3>
+                <ol>
+                    <li>Go to your fork on GitHub</li>
+                    <li>Click <strong>Contribute</strong> → <strong>Open pull request</strong></li>
+                    <li>Add title: <code>Add overlay for [Device Name]</code></li>
+                    <li>Include in description:
+                        <ul>
+                            <li>Device codename: <code>ro.product.device</code> value</li>
+                            <li>Device fingerprint</li>
+                            <li>Issues fixed by this overlay</li>
+                            <li>Test results</li>
+                        </ul>
+                    </li>
+                    <li>Submit the PR</li>
+                </ol>
+                
+                <div class="success">
+                    Congratulations! Your overlay will be reviewed and included in future GSI builds.
+                </div>
+            </div>
+        </div>
+        
+        <div class="step">
+            <div class="step-header">
+                <div class="step-number">13</div>
+                <h2>Troubleshooting</h2>
+            </div>
+            <div class="step-content">
+                <h3>ADB Device Not Found</h3>
+                <ul>
+                    <li>Enable USB Debugging in Developer Options</li>
+                    <li>Try: <code>adb kill-server && adb start-server</code></li>
+                    <li>Check cable connection</li>
+                    <li>Install device drivers (Windows) or udev rules (Linux)</li>
+                </ul>
+                
+                <h3>Overlay Not Showing</h3>
+                <ul>
+                    <li>Verify codename: <code>adb shell getprop ro.product.device</code></li>
+                    <li>Check priority is set to 999</li>
+                    <li>Ensure APK is in <code>/system/product/overlay/</code></li>
+                    <li>Check SELinux isn't blocking: <code>adb shell dmesg | grep -i overlay</code></li>
+                </ul>
+                
+                <h3>Build Errors</h3>
+                <ul>
+                    <li>Run <code>./tests/tests.sh</code> to identify issues</li>
+                    <li>Remove values that cause conflicts</li>
+                    <li>Ensure XML files are properly formatted</li>
+                </ul>
+            </div>
+        </div>
+        
+        <footer>
+            <p>TrebleDroid Overlay Creator Guide</p>
+            <p>For support, visit the <a href="https://t.me/phhtreble" target="_blank">Telegram Group</a></p>
+        </footer>
+        
+    </div>
+</body>
+</html>
