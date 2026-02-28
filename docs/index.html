@@ -141,16 +141,13 @@
             background: #f8f9fa;
             border: 1px solid #dee2e6;
             border-radius: 5px;
-            padding: 15px;
+            padding: 15px 20px;
             margin: 15px 0;
             font-family: 'Courier New', monospace;
             font-size: 0.9em;
             line-height: 1.8;
             overflow-x: auto;
-        }
-        
-        .file-tree .comment {
-            color: #6c757d;
+            white-space: pre;
         }
         
         .file-tree .folder {
@@ -160,6 +157,10 @@
         
         .file-tree .file {
             color: #28a745;
+        }
+        
+        .file-tree .comment {
+            color: #6c757d;
         }
         
         .btn {
@@ -197,6 +198,11 @@
             
             .step-number {
                 margin-bottom: 10px;
+            }
+            
+            .file-tree {
+                font-size: 0.8em;
+                padding: 10px;
             }
         }
     </style>
@@ -365,8 +371,7 @@ Choice (1-5):</code></pre>
                     <li>Optionally enter path to vendor overlay APK</li>
                 </ol>
                 
-                <div class="file-tree">
-<span class="folder">overlay-files/</span>
+                <div class="file-tree"><span class="folder">overlay-files/</span>
 ├── <span class="file">vendor.apk</span> <span class="comment">(optional but recommended)</span>
 └── <span class="file">product.apk</span> <span class="comment">(required)</span></div>
             </div>
@@ -521,8 +526,7 @@ cd vendor_hardware_overlay</code></pre>
                 
                 <p>This copies your overlay files to the correct location:</p>
                 
-                <div class="file-tree">
-<span class="folder">vendor_hardware_overlay/</span>
+                <div class="file-tree"><span class="folder">vendor_hardware_overlay/</span>
 └── <span class="folder">overlay/</span>
     └── <span class="folder">brand/</span>
         └── <span class="folder">codename/</span>
